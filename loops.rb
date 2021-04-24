@@ -14,3 +14,47 @@ remote_base_url = "http://en.wikipedia.org/wiki"
     r_url = remote_base_url + "/" + some_number.to_s
     puts r_url
 end  
+
+
+#simple project 
+
+=begin
+
+- Specify two numbers, representing a start and end year
+- Use that range to create a loop
+- Retrieve the Wikipedia entry that corresponds to each iteration of the loop
+- Save that Wikipedia page to a corresponding file on your hard drive
+- In a second loop, combine all those year entries into one file, with the name of "start_year-end_year.html"
+
+=end
+
+require "open-uri"
+remote_base_url = "http://en.wikipedia.org/wiki"
+
+start_year = 1900
+end_year = 1906
+
+(start_year..end_year).each do |yr|
+    rpage = open(remote_base_url + "/" + yr.to_s)
+    
+    local_fname = "copy-of-" + yr.to_s + ".html"
+    local_file = open(local_fname, "w")
+    local_file.write(rpage.read)
+    local_file.close
+    
+   # Optional output line:
+   puts "Wrote file " + local_fname
+   sleep 1
+end
+
+# Write to the compiled file now:
+compiled_file = open(start_year.to_s + "-" + end_year.to_s + ".html",  "w")
+(start_year..end_year).each do |yr|
+    local_fname = "copy-of-" + yr.to_s + ".html"
+    local_file = open(local_fname, "r")
+    
+    compiled_file.write(local_file.read)
+    local_file.close
+end
+
+compiled_file.close
