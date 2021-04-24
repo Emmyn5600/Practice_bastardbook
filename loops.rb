@@ -70,8 +70,9 @@ compiled_file = open(start_year.to_s + "-" + end_year.to_s + ".html",  "w")
 
 (start_year..end_year).each do |yr|
     rpage = open(remote_base_url + "/" + yr.to_s)
-    rpage_data = rpage.read
-   
+    rpage_data = rpage.read  #Or  rpage_data = open(remote_base_url + "/" + yr.to_s).read
+
+   # you can't call the read method twice on the same File object (in this example, rpage).
     compiled_file.write(rpage_data)
     
     local_fname = "copy-of-" + yr.to_s + ".html"
